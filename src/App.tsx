@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import Layout from "./components/Layout";
 import Login from "./components/auth/Login";
@@ -20,10 +20,11 @@ function App() {
       <BrowserRouter basename="/">
 
         <Routes>
+          <Route path="/" element={<Layout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Layout />} />
-          <Route
+        <Route path="/test-layout" element={<Layout />}/>
+        <Route
             path="/dashboard"
             element={
               <ProtectedRoute>

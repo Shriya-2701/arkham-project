@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import LegalPopup from "./sections/LegalPopup";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ThemeProvider } from "../context/ThemeContext";
+import useAuthStore from "../store/useAuthStore";
 
 // Import only the sections you need
 import SocialMedia from "./sections/SocialMedia";
@@ -12,8 +13,11 @@ import Terms from "./sections/Terms";
 import Privacy from "./sections/Privacy";
 import Contact from "./sections/Contact";
 import Hero from "./sections/Hero";
+import { useNavigate } from "react-router-dom";
 
 const Layout = () => {
+  const {authUser} = useAuthStore();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showLegalPopup, setShowLegalPopup] = useState(false);
@@ -73,8 +77,10 @@ const Layout = () => {
   // Determine what to render
   const getCurrentComponent = () => {
     if (activeLegalSection) {
+       console.log("Legal Section Showing:", activeLegalSection);
       return legalSectionComponents[activeLegalSection];
     }
+    console.log("Main Section Showing:", mainSectionTitles[activeSection]);
     return mainSectionComponents[activeSection] || mainSectionComponents[0];
   };
 

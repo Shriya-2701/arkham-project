@@ -72,14 +72,30 @@ const ArkhamExperience: React.FC = () => {
   ];
 
   return (
-    <div className="section-container" id="arkham-experience" ref={sectionRef}>
-      <video className="video-bg" autoPlay loop muted playsInline>
-        <source src="https://player.vimeo.com/external/370331493.sd.mp4?s=e90dcaba73c19e0e36f03406b47bbd8a83bda85a&profile_id=164" type="video/mp4" />
-      </video>
+    <div className=" section-container bg-black ">
+       <div className="video-background absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="video-bg"
+          onError={(e) => console.error("Video failed to load:", e)}
+          onCanPlay={() => console.log("Video can play")}
+          onLoadedData={() => console.log("Video loaded")}
+        >
+          <source src="/social1.mp4" type="video/mp4" />
+          <p>Your browser doesn't support HTML video.</p>
+        </video>
+      </div>
+      <div className="video-overlay absolute inset-0 bg-black bg-opacity-70 z-10"></div>
       
-      <div className="section-content max-w-7xl mx-auto px-4">
-        <div className="glass rounded-lg p-8 md:p-12 max-w-6xl mx-auto">
+      <div className="section-content max-w-7xl mx-auto px-4"> 
+      <div className="glass rounded-lg p-8 md:p-12 max-w-6xl mx-auto">
+        
           <div className="flex items-center justify-between mb-12">
+          
             <div className="flex items-center gap-4">
               <Gamepad2 className="w-8 h-8 text-white" />
               <Music className="w-8 h-8 text-white" />
@@ -91,6 +107,7 @@ const ArkhamExperience: React.FC = () => {
             Step into a revolutionary fusion of gaming and audio technology. Experience immersive digital 
             realms enhanced with dynamic soundscapes and AI-driven interactions.
           </p>
+          
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {experienceCards.map((card, index) => (
@@ -126,9 +143,27 @@ const ArkhamExperience: React.FC = () => {
               Watch Tutorial <ExternalLink className="w-5 h-5" />
             </a>
           </div>
+            <div className="w-full max-w-6xl mx-auto px-4 pt-10">
+  <div className="w-full h-49 rounded-2xl overflow-hidden shadow-2xl">
+    <video
+      autoPlay
+      controls
+      loop
+      playsInline
+      preload="auto"
+      className="w-full h-full object-cover rounded-2xl"
+    >
+      <source src="/lay_expbottom.mp4" type="video/mp4" />
+      <p>Your browser doesn't support HTML video.</p>
+    </video>
+  </div>
+</div>
+           </div>
         </div>
-      </div>
-    </div>
+                
+     
+</div>
+    
   );
 };
 

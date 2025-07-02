@@ -27,9 +27,24 @@ const KProtocol: React.FC = () => {
 
   return (
     <div className="section-container" id="k-protocol" ref={sectionRef}>
-      <video className="video-bg" autoPlay loop muted playsInline>
-        <source src="https://player.vimeo.com/external/477298213.sd.mp4?s=2ca1a23f4a20e5669679c0028889b87c7d42322d&profile_id=164" type="video/mp4" />
-      </video>
+      <div className=" section-container bg-black ">
+       <div className="video-background absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="video-bg"
+          onError={(e) => console.error("Video failed to load:", e)}
+          onCanPlay={() => console.log("Video can play")}
+          onLoadedData={() => console.log("Video loaded")}
+        >
+          <source src="/social1.mp4" type="video/mp4" />
+          <p>Your browser doesn't support HTML video.</p>
+        </video>
+      </div>
+      <div className="video-overlay absolute inset-0 bg-black bg-opacity-70 z-10"></div>
       
       <div className="section-content max-w-7xl mx-auto px-4">
         <div className="glass rounded-none p-8 md:p-12 max-w-3xl border border-white/5">
@@ -332,7 +347,25 @@ const KProtocol: React.FC = () => {
             </button>
           </div>
         </div>
+  <div className="w-full max-w-6xl mx-auto px-4 pt-10">
+  <div className="w-full h-49 rounded-2xl overflow-hidden shadow-2xl">
+    <video
+      autoPlay
+      controls
+      playsInline
+      loop
+      preload="auto"
+      className="w-full h-full object-cover rounded-2xl"
+    >
+      <source src="/lay_probottom.mp4" type="video/mp4" />
+      <p>Your browser doesn't support HTML video.</p>
+    </video>
+  </div>
+</div>
+
+
       </div>
+    </div>
     </div>
   );
 };

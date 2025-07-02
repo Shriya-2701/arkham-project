@@ -122,13 +122,46 @@ const immersiveTools = [
 
 const SocialMedia = () => {
   return (
-    <div className="section-container" id="social-media">
-      <video className="video-bg" autoPlay loop muted playsInline>
-        <source src="https://player.vimeo.com/external/528526482.sd.mp4?s=1e1c54a33b93c079008a520e9647f20fbb5d5d5c&profile_id=164" type="video/mp4" />
-      </video>
-      
-      <div className="section-content max-w-7xl mx-auto px-4">
-        <div className="glass rounded-none p-8 md:p-12 border border-white/5">
+ <div className="section-container relative bg-black" >
+      <div className="video-background absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="video-bg"
+          onError={(e) => console.error("Video failed to load:", e)}
+          onCanPlay={() => console.log("Video can play")}
+          onLoadedData={() => console.log("Video loaded")}
+        >
+          <source src="/social1.mp4" type="video/mp4" />
+          <p>Your browser doesn't support HTML video.</p>
+        </video>
+      </div>
+      <div className="video-overlay absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+
+   <div className="section-content max-w-7xl mx-auto px-4">
+    
+        <div className="glass rounded-lg p-8 md:p-12 border border-white/5">
+        <div className="section-container relative min-h-scree bg-black text-white" >
+      <div className="video-background fixed top-0 left-0 w-full h-full z-0 overflow-hidden absolute inset-0 z-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="video-bg"
+          onError={(e) => console.error("Video failed to load:", e)}
+          onCanPlay={() => console.log("Video can play")}
+          onLoadedData={() => console.log("Video loaded")}
+        >
+          <source src="/social1.mp4" type="video/mp4" />
+          <p>Your browser doesn't support HTML video.</p>
+        </video>
+      </div>
+      <div className="video-overlay absolute inset-0 bg-black bg-opacity-50 z-10"></div>
           <div className="flex items-center mb-6">
             <Users className="w-8 h-8 text-white mr-4" />
             <h2 className="section-title">Creative Hub</h2>
@@ -194,9 +227,28 @@ const SocialMedia = () => {
               ))}
             </div>
           </div>
+          <div className="w-full max-w-6xl mx-auto px-4 pt-10">
+  <div className="w-full h-49 rounded-2xl overflow-hidden shadow-2xl">
+    <video
+      autoPlay
+      controls
+      loop
+      playsInline
+      preload="auto"
+      className="w-full h-full object-cover rounded-2xl"
+    >
+      <source src="/lay_socialbottom.mp4" type="video/mp4" />
+      <p>Your browser doesn't support HTML video.</p>
+    </video>
+  </div>
+</div>
+
         </div>
       </div>
+      
     </div>
+    </div>
+    
   );
 };
 

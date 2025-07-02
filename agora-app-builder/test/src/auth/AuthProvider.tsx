@@ -722,6 +722,8 @@ const AuthProvider = (props: AuthProviderProps) => {
           })
           .finally(() => {
             setIsAuthenticated(false);
+          
+           
           });
       }
     }
