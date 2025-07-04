@@ -30,7 +30,7 @@ const Feed = () => {
   const [showLiveStream, setShowLiveStream] = useState(false);
   const [activeTab, setActiveTab] = useState("feed");
 
-  const posts = [
+   const posts = [
     {
       id: 1,
       user: {
@@ -62,10 +62,51 @@ const Feed = () => {
     },
   ];
 
+  // ✅ State to store generated content
+  const [generatedContent, setGeneratedContent] = useState<{
+    url: string;
+    type: string;
+  } | null>(null);
+
+  // ✅ Handle AI generation result
   const handleGenerate = (url: string, type: string) => {
-    console.log(`Generated ${type} content:`, url);
+    console.log("Generated:", url);
+    setGeneratedContent({ url, type });
   };
 
+  // ✅ UI block for rendering generated result
+  const renderGeneratedContent = () => {
+    if (!generatedContent) return null;
+
+    return (
+      <div className="mt-8 p-4 bg-black/40 border border-white/10 rounded-lg text-white">
+        <h3 className="text-lg font-bold mb-4">
+          AI Generated {generatedContent.type}
+        </h3>
+        {generatedContent.type === "image" && (
+          <img
+            src={generatedContent.url}
+            alt="Generated"
+            className="w-full rounded-lg"
+          />
+        )}
+        {generatedContent.type === "video" && (
+          <video controls className="w-full rounded-lg">
+            <source src={generatedContent.url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+        {["music", "podcast"].includes(generatedContent.type) && (
+          <audio controls className="w-full">
+            <source src={generatedContent.url} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        )}
+      </div>
+    );
+  };
+
+  // 👇 Inserted `renderGeneratedContent()` inside feed content JSX
   const renderContent = () => {
     switch (activeTab) {
       case "feed":
@@ -92,6 +133,10 @@ const Feed = () => {
             <div className="mb-8">
               <CreatePost />
             </div>
+
+            {/* ✅ ✅ Actually rendering the result here */}
+            {renderGeneratedContent()}
+
             {posts.map((post) => (
               <FeedPost key={post.id} post={post} />
             ))}
@@ -116,110 +161,131 @@ const Feed = () => {
     }
   };
 
+ 
+
   return (
-    <div className="max-w-2xl mx-auto bg-transparent min-h-screen p-8">
-      <FeedHeader />
-
-      {/* Feed Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 bg-black/20 backdrop-blur-sm p-1 rounded-lg border border-white/10">
-        <button
-          onClick={() => setActiveTab("feed")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "feed"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
+       <div className="max-w-2xl mx-auto min-h-screen p-8">
+      <div className="video-background">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="video-bg"
+          onError={(e) => console.error("Video failed to load:", e)}
+          onCanPlay={() => console.log("Video can play")}
+          onLoadedData={() => console.log("Video loaded")}
         >
-          <Rss className="w-4 h-4" />
-          <span>Feed</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("journal")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "journal"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Book className="w-4 h-4" />
-          <span>Journal</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("search")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "search"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <SearchIcon className="w-4 h-4" />
-          <span>Search</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("connections")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "connections"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>Connections</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("spectrum")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "spectrum"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Newspaper className="w-4 h-4" />
-          <span>Spectrum</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("journey")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "journey"
-              ? "bg-white/10 text-white"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Trophy className="w-4 h-4" />
-          <span>Journey</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("sos")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "sos"
-              ? "bg-red-500/20 text-red-400"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <AlertTriangle className="w-4 h-4" />
-          <span>Emergency</span>
-        </button>
-        <button
-          onClick={() => setActiveTab("gossips")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-            activeTab === "gossips"
-              ? "bg-purple-500/20 text-purple-400"
-              : "text-white/60 hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <MessageSquareOff className="w-4 h-4" />
-          <span>Whispers</span>
-        </button>
+          <source src="/social1.mp4" type="video/mp4" />
+          <p>Your browser doesn't support HTML video.</p>
+        </video>
       </div>
+      <div className="video-overlay"></div>
+      <div className="content-wrapper">
+        <FeedHeader />
 
-      {renderContent()}
+        {/* Feed Tabs */}
+        <div className="flex flex-wrap gap-2 mb-8 bg-black/20 backdrop-blur-sm p-1 rounded-lg border border-white/10">
+          <button
+            onClick={() => setActiveTab("feed")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "feed"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Rss className="w-4 h-4" />
+            <span>Feed</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("journal")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "journal"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Book className="w-4 h-4" />
+            <span>Journal</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("search")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "search"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <SearchIcon className="w-4 h-4" />
+            <span>Search</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("connections")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "connections"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Users className="w-4 h-4" />
+            <span>Connections</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("spectrum")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "spectrum"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Newspaper className="w-4 h-4" />
+            <span>Spectrum</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("journey")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "journey"
+                ? "bg-white/10 text-white"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Trophy className="w-4 h-4" />
+            <span>Journey</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("sos")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "sos"
+                ? "bg-red-500/20 text-red-400"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <AlertTriangle className="w-4 h-4" />
+            <span>Emergency</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("gossips")}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              activeTab === "gossips"
+                ? "bg-purple-500/20 text-purple-400"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <MessageSquareOff className="w-4 h-4" />
+            <span>Whispers</span>
+          </button>
+        </div>
 
-      {showAiGenerator && (
-        <AiContentGenerator
-          onGenerate={handleGenerate}
-          onClose={() => setShowAiGenerator(false)}
-        />
-      )}
+        {renderContent()}
+
+        {showAiGenerator && (
+          <AiContentGenerator
+            onGenerate={handleGenerate}
+            onClose={() => setShowAiGenerator(false)}
+          />
+        )}
+      </div>
     </div>
   );
 };

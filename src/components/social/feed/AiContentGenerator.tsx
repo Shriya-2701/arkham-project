@@ -13,28 +13,49 @@ export const AiContentGenerator = ({ onGenerate, onClose }: AiContentGeneratorPr
   const [type, setType] = useState<ContentType>('image');
   const [generating, setGenerating] = useState(false);
 
+  const apiEndpoints: Record<ContentType, string> = {
+    image: 'https://replicate-api-343916782787.us-central1.run.app/generate',
+    video: 'https://replicate-video-api-343916782787.us-central1.run.app/generate',
+    music: 'https://replicate-music-api-343916782787.us-central1.run.app/generate',
+    podcast: '', // Not implemented
+  };
+
+  const handleGenerate = async () => {
+    if (!prompt.trim()) return;
+    setGenerating(true);
+
+    try {
+      const endpoint = apiEndpoints[type];
+      if (!endpoint) throw new Error('No endpoint configured for this type');
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const data = await res.json();
+      console.log('API response:', data);
+
+      const url = data.image_url || data.video_url || data.music_url; 
+      if (!url) throw new Error('No media URL returned by API');
+
+      onGenerate(url, type);
+      onClose();
+    } catch (error) {
+      console.error('Generation failed:', error);
+      alert('Failed to generate. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   const contentTypes = [
     { id: 'image', label: 'Image', icon: ImagePlus },
     { id: 'music', label: 'Music', icon: Music },
     { id: 'video', label: 'Video', icon: Video },
-    { id: 'podcast', label: 'Podcast', icon: Mic }
+    { id: 'podcast', label: 'Podcast', icon: Mic },
   ] as const;
-
-  const handleGenerate = async () => {
-    setGenerating(true);
-    // Simulate AI generation - replace with actual API calls
-    setTimeout(() => {
-      const mockUrls = {
-        image: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800',
-        music: 'https://example.com/music.mp3',
-        video: 'https://example.com/video.mp4',
-        podcast: 'https://example.com/podcast.mp3'
-      };
-      onGenerate(mockUrls[type], type);
-      setGenerating(false);
-      onClose();
-    }, 2000);
-  };
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
@@ -45,7 +66,7 @@ export const AiContentGenerator = ({ onGenerate, onClose }: AiContentGeneratorPr
           {contentTypes.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
-              onClick={() => setType(id)}
+              onClick={() => setType(id as ContentType)}
               className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-lg transition-all ${
                 type === id
                   ? 'bg-white/10 text-white border border-white/20'
@@ -62,7 +83,7 @@ export const AiContentGenerator = ({ onGenerate, onClose }: AiContentGeneratorPr
           placeholder={`Describe the ${type} you want to generate...`}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="w-full h-32 bg-zinc-800 rounded-lg p-4 text-white placeholder-zinc-500 resize-none border border-zinc-700 focus:border-white/20 focus:ring-0 transition-colors mb-4"
+          className="w-full h-32 bg-zinc-800 rounded-lg p-4 text-white placeholder-zinc-500 resize-none border border-zinc-700 focus:border-white/20 transition-colors mb-4"
         />
 
         <div className="flex justify-end space-x-4">
@@ -75,7 +96,7 @@ export const AiContentGenerator = ({ onGenerate, onClose }: AiContentGeneratorPr
           <button
             onClick={handleGenerate}
             disabled={generating || !prompt}
-            className="px-4 py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+            className="px-4 py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 flex items-center"
           >
             {generating ? (
               <>

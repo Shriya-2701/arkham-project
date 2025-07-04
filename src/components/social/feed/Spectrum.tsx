@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Newspaper, ArrowLeft, ArrowRight, Filter } from 'lucide-react';
 
 interface NewsArticle {
+
   id: string;
   title: string;
   source: string;
@@ -139,3 +140,4 @@ export const Spectrum = () => {
     </div>
   );
 };
+

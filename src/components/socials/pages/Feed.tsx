@@ -30,7 +30,7 @@ const Feed = () => {
   const [showLiveStream, setShowLiveStream] = useState(false);
   const [activeTab, setActiveTab] = useState("feed");
 
-  const posts = [
+   const posts = [
     {
       id: 1,
       user: {
@@ -61,11 +61,51 @@ const Feed = () => {
       impressions: 2891,
     },
   ];
+  // ✅ State to store generated content
+  const [generatedContent, setGeneratedContent] = useState<{
+    url: string;
+    type: string;
+  } | null>(null);
 
+  // ✅ Handle AI generation result
   const handleGenerate = (url: string, type: string) => {
-    console.log(`Generated ${type} content:`, url);
+    console.log("Generated:", url);
+    setGeneratedContent({ url, type });
   };
 
+  // ✅ UI block for rendering generated result
+  const renderGeneratedContent = () => {
+    if (!generatedContent) return null;
+
+    return (
+      <div className="mt-8 p-4 bg-black/40 border border-white/10 rounded-lg text-white">
+        <h3 className="text-lg font-bold mb-4">
+          AI Generated {generatedContent.type}
+        </h3>
+        {generatedContent.type === "image" && (
+          <img
+            src={generatedContent.url}
+            alt="Generated"
+            className="w-full rounded-lg"
+          />
+        )}
+        {generatedContent.type === "video" && (
+          <video controls className="w-full rounded-lg">
+            <source src={generatedContent.url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+        {["music", "podcast"].includes(generatedContent.type) && (
+          <audio controls className="w-full">
+            <source src={generatedContent.url} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        )}
+      </div>
+    );
+  };
+
+  // 👇 Inserted `renderGeneratedContent()` inside feed content JSX
   const renderContent = () => {
     switch (activeTab) {
       case "feed":
@@ -81,9 +121,7 @@ const Feed = () => {
                 <span>Create with AI</span>
               </button>
               <button
-                onClick={() =>
-                  window.open("https://web-dun-iota.vercel.app/", "_blank")
-                }
+                onClick={() => setShowLiveStream(!showLiveStream)}
                 className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-black/20 hover:bg-black/30 text-white border border-white/10 rounded-lg transition-colors backdrop-blur-sm"
               >
                 <Radio className="w-5 h-5" />
@@ -94,6 +132,10 @@ const Feed = () => {
             <div className="mb-8">
               <CreatePost />
             </div>
+
+            {/* ✅ ✅ Actually rendering the result here */}
+            {renderGeneratedContent()}
+
             {posts.map((post) => (
               <FeedPost key={post.id} post={post} />
             ))}
@@ -118,8 +160,10 @@ const Feed = () => {
     }
   };
 
+ 
+
   return (
-    <div className="max-w-2xl mx-auto min-h-screen p-8">
+       <div className="max-w-2xl mx-auto min-h-screen p-8">
       <div className="video-background">
         <video
           autoPlay
