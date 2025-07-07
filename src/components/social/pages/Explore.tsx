@@ -30,8 +30,9 @@ const Explore = () => {
     { id: "interests", label: "Interests", icon: Compass },
     { id: "events", label: "Events", icon: Calendar },
     { id: "locations", label: "Locations", icon: MapPin },
-    { id: "maps", label: "Maps", icon: Map },
+  //  { id: "maps", label: "Maps", icon: Map },
   ];
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -47,8 +48,8 @@ const Explore = () => {
         return <EventsSection />;
       case "locations":
         return <LocationsSection />;
-      case "maps":
-        return <MapsSection />;
+     /* case "maps":
+        return <MapsSection />;*/
       default:
         return null;
     }

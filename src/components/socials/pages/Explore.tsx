@@ -13,6 +13,7 @@ const Explore = () => {
   const [activeTab, setActiveTab] = useState('people');
   const [searchQuery, setSearchQuery] = useState('');
 
+
   const tabs = [
     { id: 'people', label: 'People', icon: Users },
     { id: 'creators', label: 'Creators', icon: Star },
@@ -20,7 +21,7 @@ const Explore = () => {
     { id: 'interests', label: 'Interests', icon: Compass },
     { id: 'events', label: 'Events', icon: Calendar },
     { id: 'locations', label: 'Locations', icon: MapPin },
-    { id: 'maps', label: 'Maps', icon: Map }
+    //{ id: 'maps', label: 'Maps', icon: Map }
   ];
 
   const renderContent = () => {
@@ -37,8 +38,8 @@ const Explore = () => {
         return <EventsSection />;
       case 'locations':
         return <LocationsSection />;
-      case 'maps':
-        return <MapsSection />;
+   /*   case 'maps':
+        return <MapsSection />;*/
       default:
         return null;
     }

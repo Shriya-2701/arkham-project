@@ -16,8 +16,9 @@ const tabs = [
   { id: 'interests', label: 'Interests', icon: Compass },
   { id: 'events', label: 'Events', icon: Calendar },
   { id: 'locations', label: 'Locations', icon: MapPin },
-  { id: 'maps', label: 'Maps', icon: Map }
+  //{ id: 'maps', label: 'Maps', icon: Map }
 ];
+
 
 export const ExploreNav = ({ activeTab, onTabChange }: ExploreNavProps) => (
   <div className="flex flex-col space-y-2 w-16 fixed left-0 top-0 bottom-0 bg-zinc-900/95 border-r border-zinc-800/50 p-2">

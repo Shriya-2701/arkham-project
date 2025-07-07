@@ -16,7 +16,7 @@ const tabs = [
   { id: 'interests', label: 'Interests', icon: Compass },
   { id: 'events', label: 'Events', icon: Calendar },
   { id: 'locations', label: 'Locations', icon: MapPin },
-  { id: 'maps', label: 'Maps', icon: Map }
+ // { id: 'maps', label: 'Maps', icon: Map }
 ];
 
 export const ExploreNav = ({ activeTab, onTabChange }: ExploreNavProps) => (

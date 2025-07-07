@@ -9,6 +9,7 @@ interface ExploreNavProps {
   onTabChange: (tab: string) => void;
 }
 
+
 const tabs = [
   { id: 'people', label: 'People', icon: Users },
   { id: 'creators', label: 'Creators', icon: Star },
