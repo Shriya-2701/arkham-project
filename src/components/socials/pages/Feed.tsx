@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { CreatePost } from "../components/create/CreatePost";
+import { CreateEvent } from "../components/create/CreateEvents";
+import { CreateLocation } from "../components/create/CreateLocation";
 import { CreatorRow } from "../components/creator/CreatorRow";
 import { FeedHeader } from "../components/feed/FeedHeader";
 import { FeedPost } from "../components/feed/FeedPost";
@@ -132,6 +134,14 @@ const Feed = () => {
             <div className="mb-8">
               <CreatePost />
             </div>
+            <div className="mb-8">
+              <CreateEvent />
+              </div>
+
+            <div className="mb-8">
+               <CreateLocation />
+              </div>
+
 
             {/* ✅ ✅ Actually rendering the result here */}
             {renderGeneratedContent()}
