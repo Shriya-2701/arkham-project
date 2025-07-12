@@ -4,6 +4,7 @@ import { SearchTabs } from './SearchTabs';
 import { SearchContent } from './SearchContent';
 import { DetectiveAI } from './DetectiveAI';
 
+
 export const SearchLayout = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('primary');
@@ -42,7 +43,7 @@ export const SearchLayout = () => {
           </div>
         </div>
         <DetectiveAI />
-      </div>
+    </div>
     </div>
   );
 };
